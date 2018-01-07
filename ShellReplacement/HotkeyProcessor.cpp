@@ -59,6 +59,7 @@ bool HotkeyProcessor::AddHotkey(UINT Modifiers, UINT VKey)
 		UnregisterHotKey(NULL, id);
 		return false;
 	}
+	Log(L"Created request event %s", EventName);
 	swprintf_s(EventName, L"Local\\ShellHotkeyResp%04x%04x", Modifiers, VKey);
 	m_ResponseEvents[m_Count] = CreateEvent(NULL, TRUE, FALSE, EventName);
 	if (m_ResponseEvents[m_Count] == NULL)
@@ -68,13 +69,14 @@ bool HotkeyProcessor::AddHotkey(UINT Modifiers, UINT VKey)
 		UnregisterHotKey(NULL, id);
 		return false;
 	}
+	Log(L"Created response event %s", EventName);
 	++m_Count;
 	return true;
 }
 
 bool HotkeyProcessor::ReleaseHotkey(size_t Index)
 {
-	Log(L"Registering hotkey number %zu out of %zu", Index, m_Count);
+	Log(L"Removing hotkey number %zu out of %zu", Index, m_Count);
 	if (Index >= m_Count)
 		return false;
 

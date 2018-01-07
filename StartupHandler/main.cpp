@@ -49,6 +49,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 			Log(L"Failed to open request event %s, error code: %lu", EventName, GetLastError());
 			continue;
 		}
+		Log(L"Opened request event %s", EventName);
 		swprintf_s(EventName, L"Local\\ShellHotkeyResp%04x%04x", SEntries[i].m_Modifiers, SEntries[i].m_VKey);
 		HANDLE RespEvent = OpenEvent(SYNCHRONIZE, FALSE, EventName);
 		if (RespEvent == NULL)
@@ -57,6 +58,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 			CloseHandle(ReqEvent);
 			continue;
 		}
+		Log(L"Opened response event %s", EventName);
 
 		// Signal that we are ready to run the application
 		Log(L"Signalling the request event...");
@@ -79,6 +81,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 			Log(L"Failed to start the application, error code: %lu", GetLastError());
 			continue;
 		}
+		Log(L"The application started successfully");
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	}
