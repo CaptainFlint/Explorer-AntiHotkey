@@ -1,10 +1,14 @@
 #include <Windows.h>
 #include <stdio.h>
 
+const bool LoggingEnabled = false;
 wchar_t LogFile[MAX_PATH] = { 0 };
 
 void Log(const wchar_t* fmt, ...)
 {
+	if (!LoggingEnabled)
+		return;
+
 	// Format message
 	const size_t MSG_BUF_SZ = 2048;
 	wchar_t msg_buf[MSG_BUF_SZ];
