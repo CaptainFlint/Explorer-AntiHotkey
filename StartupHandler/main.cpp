@@ -7,7 +7,7 @@
 #include "Logging.h"
 
 // Wait timeout for the shell replacement to signal for readyness
-const DWORD STARTUP_WAIT_TIMEOUT = 15000;
+const DWORD STARTUP_WAIT_TIMEOUT = 60000;
 
 class StartupEntry
 {
@@ -43,7 +43,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 		Log(L"Processing entry %zu: %04x-%04x: %s", i, SEntries[i].m_Modifiers, SEntries[i].m_VKey, SEntries[i].m_CmdLine);
 		wchar_t EventName[MAX_PATH];
 		swprintf_s(EventName, L"Local\\ShellHotkeyReq%04x%04x", SEntries[i].m_Modifiers, SEntries[i].m_VKey);
-		HANDLE ReqEvent = OpenEvent(SYNCHRONIZE, FALSE, EventName);
+		HANDLE ReqEvent = OpenEvent(SYNCHRONIZE | EVENT_MODIFY_STATE, FALSE, EventName);
 		if (ReqEvent == NULL)
 		{
 			Log(L"Failed to open request event %s, error code: %lu", EventName, GetLastError());
@@ -51,7 +51,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 		}
 		Log(L"Opened request event %s", EventName);
 		swprintf_s(EventName, L"Local\\ShellHotkeyResp%04x%04x", SEntries[i].m_Modifiers, SEntries[i].m_VKey);
-		HANDLE RespEvent = OpenEvent(SYNCHRONIZE, FALSE, EventName);
+		HANDLE RespEvent = OpenEvent(SYNCHRONIZE | EVENT_MODIFY_STATE, FALSE, EventName);
 		if (RespEvent == NULL)
 		{
 			Log(L"Failed to open response event %s, error code: %lu", EventName, GetLastError());

@@ -6,7 +6,7 @@
 #include "Logging.h"
 
 // Wait timeout for the startup handlers to signal for readyness
-const DWORD STARTUP_WAIT_TIMEOUT = 15000;
+const DWORD STARTUP_WAIT_TIMEOUT = 60000;
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
