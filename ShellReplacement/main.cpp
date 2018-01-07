@@ -45,7 +45,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	{
 		// Wait till one of the "reserved" hotkeys is requested by startup handler
 		// and exclude it from the list
-		DWORD WaitRes = WaitForMultipleObjects(static_cast<DWORD>(HotkeysRemaining), HKeyProc.GetHandles(), FALSE, STARTUP_WAIT_TIMEOUT);
+		DWORD WaitRes = WaitForMultipleObjects(static_cast<DWORD>(HotkeysRemaining), HKeyProc.GetRequestHandles(), FALSE, STARTUP_WAIT_TIMEOUT);
 		if ((WaitRes >= WAIT_OBJECT_0) && (WaitRes <= WAIT_OBJECT_0 + HotkeysRemaining - 1))
 		{
 			// One of the events was signalled

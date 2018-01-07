@@ -8,7 +8,7 @@ public:
 
 	bool AddHotkey(UINT Modifiers, UINT VKey);
 	bool ReleaseHotkey(size_t Index);
-	const HANDLE* GetHandles() const {
+	const HANDLE* GetRequestHandles() const {
 		return m_RequestEvents;
 	};
 	size_t GetCount() const {
