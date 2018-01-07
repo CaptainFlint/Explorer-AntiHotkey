@@ -16,11 +16,13 @@ void Log(const wchar_t* fmt, ...)
 		return;
 
 	// Lazy initialization of the log file path
+	bool FirstCall = false;
 	if (LogFile[0] == L'\0')
 	{
 		if (!GetModuleFileName(NULL, LogFile, MAX_PATH))
 			return;
 		wcscat_s(LogFile, L".log");
+		FirstCall = true;
 	}
 
 	// Log the message
@@ -36,8 +38,9 @@ void Log(const wchar_t* fmt, ...)
 	wchar_t prefix[128];
 	int prefix_len = swprintf_s(
 		prefix,
-		L"%s[%04u-%02u-%02u %02u:%02u:%02u.%03u] ",
+		L"%s%s[%04u-%02u-%02u %02u:%02u:%02u.%03u] ",
 		((res_ptr.QuadPart == 0) ? L"\xfeff" : L""),
+		(FirstCall ? L"================================\x0d\x0a" : L""),
 		st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds
 	);
 	WriteFile(LogFH, prefix, prefix_len * sizeof(wchar_t), &dw, NULL);
